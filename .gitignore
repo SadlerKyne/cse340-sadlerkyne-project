@@ -14,3 +14,7 @@ node_modules
 
 # .DS_Store is only for Mac users
 **/.DS_Store
+# Added README.md to .gitignore
+# README.md is a file that contains information about the project.
+# It is not necessary to upload it to the repository.
+README.md
