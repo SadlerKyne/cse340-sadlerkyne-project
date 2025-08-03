@@ -13,6 +13,9 @@ const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute")
 const utilities = require("./utilities")
+const session = require("express-session")
+const pool = require("./database/")
+const flash = require("connect-flash")
 
 /* ***********************
  * View Engine and Templates
@@ -28,6 +31,26 @@ app.use(async (req, res, next) => {
   res.locals.nav = await utilities.getNav()
   next()
 })
+
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
+
+app.use(flash())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res);
+  next()
+})
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 /* ***********************
  * Routes
