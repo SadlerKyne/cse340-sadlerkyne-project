@@ -1,4 +1,3 @@
-const { addClassification, addInventory } = require("../controllers/invController")
 const pool = require("../database/")
 
 /* ***************************
