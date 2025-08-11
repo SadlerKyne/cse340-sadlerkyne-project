@@ -1,0 +1,47 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+<% } %>
+
+<div class="form-container">
+    <form id="loginForm" action="/account/login" method="post">
+        <label for="account_email">Email Address:</label>
+        <input type="email" id="account_email" name="account_email" required value="<%= locals.account_email || '' %>">
+        
+        <label for="account_password">Password:</label>
+        <input type="password" id="account_password" name="account_password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+        <p>Passwords must be a minimum of 12 characters and include 1 capital letter, 1 number, and 1 special character.</p>
+        
+        <span class="password-toggle" onclick="togglePassword()">Show Password</span>
+
+        <button type="submit">Login</button>
+    </form>
+    <div class="form-footer">
+        No account? <a href="/account/register">Sign-up</a>
+    </div>
+</div>
+
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById("account_password");
+        const toggleButton = document.querySelector(".password-toggle");
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleButton.textContent = "Hide Password";
+        } else {
+            passwordInput.type = "password";
+            toggleButton.textContent = "Show Password";
+        }
+    }
+</script>

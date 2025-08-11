@@ -1,0 +1,58 @@
+<h2>Update Account</h2>
+
+<form action="/account/update-account" method="post">
+  <fieldset>
+    <legend>Account Information</legend>
+    <label for="account_firstname">First Name:</label>
+    <input
+      type="text"
+      name="account_firstname"
+      id="account_firstname"
+      required
+      value="<%= locals.account_firstname %>"
+    />
+    <label for="account_lastname">Last Name:</label>
+    <input
+      type="text"
+      name="account_lastname"
+      id="account_lastname"
+      required
+      value="<%= locals.account_lastname %>"
+    />
+    <label for="account_email">Email:</label>
+    <input
+      type="email"
+      name="account_email"
+      id="account_email"
+      required
+      value="<%= locals.account_email %>"
+    />
+    <input
+      type="hidden"
+      name="account_id"
+      value="<%= locals.account_id %>"
+    />
+    <button type="submit">Update Account</button>
+  </fieldset>
+</form>
+
+<h2>Change Password</h2>
+<form action="/account/change-password" method="post">
+  <fieldset>
+    <legend>New Password</legend>
+    <label for="account_password">Password:</label>
+    <input
+      type="password"
+      name="account_password"
+      id="account_password"
+      required
+      pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+    />
+    <input
+      type="hidden"
+      name="account_id"
+      value="<%= locals.account_id %>"
+    />
+    <button type="submit">Change Password</button>
+  </fieldset>
+</form>
