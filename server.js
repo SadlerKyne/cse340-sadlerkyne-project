@@ -16,6 +16,8 @@ const utilities = require("./utilities")
 const session = require("express-session")
 const pool = require("./database/")
 const flash = require("connect-flash")
+const cookieParser = require("cookie-parser")
+const accountRoute = require("./routes/accountRoute")
 
 /* ***********************
  * View Engine and Templates
@@ -51,6 +53,8 @@ app.use(function(req, res, next){
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
+app.use(utilities.checkJWTToken)
 
 /* ***********************
  * Routes
@@ -60,7 +64,8 @@ app.use(static)
 app.get("/", utilities.handleErrors(baseController.buildHome))
 // Inventory routes
 app.use("/inv", inventoryRoute)
-//Intentional error route
+// Account routes
+app.use("/account", accountRoute)//Intentional error route
 app.get("/error", utilities.handleErrors(baseController.buildError))
 
 // File Not Found Route - must be last route in sequence
@@ -96,8 +101,3 @@ const host = process.env.HOST
 app.listen(port, () => {
   console.log(`app listening on ${host}:${port}`)
 })
-
-
-
-
-
