@@ -1,4 +1,5 @@
 const invModel = require("../models/inventory-model")
+const revModel = require("../models/reviews-model")
 const utilities = require("../utilities/")
 const invValidation = require("../utilities/inventory-validation")
 
@@ -33,7 +34,10 @@ invCont.buildByInvId = async function (req, res, next) {
   res.render("./inventory/detail", {
     title: vehicleName,
     nav,
-    detail
+    detail,
+    reviewsHTML,
+    errors: null,
+    inv_id,
   });
 
 };
@@ -157,6 +161,25 @@ invCont.addInventory = async function (req, res) {
       })
     }
   }
+
+   /* ***************************
+ * Process new review submission
+ * ************************** */
+invCont.addReview = async function (req, res, next) {
+  const { review_text, inv_id, account_id } = req.body;
+  const addResult = await revModel.addReview(
+      review_text,
+      inv_id,
+      account_id
+  );
+
+  if (addResult) {
+      req.flash("notice", "Thank you for your review!");
+  } else {
+      req.flash("notice", "Sorry, there was an error submitting your review.");
+  }
+  res.redirect(`/inv/detail/${inv_id}`);
+}
 
 
   module.exports = invCont
